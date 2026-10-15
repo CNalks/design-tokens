@@ -17,7 +17,7 @@ const TOKEN: Record<GlobeKey, string> = { deep: "deep", ocean: "ocean", rim: "ri
 /** Fallbacks = the values in tokens.css (used on the server, in tests, or if a token is missing). */
 const FALLBACK: GlobePalette = {
   night: { deep: [0.0118, 0.0353, 0.0627], ocean: [0.0627, 0.1686, 0.2588], rim: [0.4235, 0.8431, 0.8902], halo: [0.4235, 0.8431, 0.8902], spec: [0.549, 0.7804, 0.902], dotLo: [0.2196, 0.4196, 0.5216], dotHi: [0.902, 0.949, 0.9294], sparkle: [0.251, 0.549, 0.6], event: [0.9137, 0.6902, 0.451] },
-  day: { deep: [0.7255, 0.8275, 0.8941], ocean: [0.902, 0.9373, 0.9608], rim: [0.5608, 0.7059, 0.8157], halo: [0.5608, 0.7059, 0.8157], spec: [1, 1, 1], dotLo: [0.4353, 0.5412, 0.6392], dotHi: [0.1137, 0.1843, 0.2706], sparkle: [0.251, 0.549, 0.6], event: [0.5412, 0.2902, 0.0196] },
+  day: { deep: [0.6627, 0.7843, 0.8706], ocean: [0.8706, 0.9255, 0.9608], rim: [0.4824, 0.6431, 0.7686], halo: [0.5882, 0.7373, 0.8471], spec: [1, 1, 1], dotLo: [0.4353, 0.5412, 0.6392], dotHi: [0.1137, 0.1843, 0.2706], sparkle: [0.251, 0.549, 0.6], event: [0.5412, 0.2902, 0.0196] },
 };
 
 let cv: CanvasRenderingContext2D | null = null;

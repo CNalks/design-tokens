@@ -31,8 +31,8 @@
 }
 
 /* scroll reveal: reveal.ts adds .reveal only to blocks BELOW the first screen, so nothing above the fold ever flashes */
-.reveal-ready .reveal { opacity: 0; transform: translate3d(0, var(--reveal-y), 0); transition: opacity var(--dur-reveal) var(--ease-out) var(--rd, 0ms), transform var(--dur-reveal) var(--ease-out) var(--rd, 0ms); }
-.reveal-ready .reveal.is-in { opacity: 1; transform: none; }
+:where(.reveal-ready) .reveal { opacity: 0; transform: translate3d(0, var(--reveal-y), 0); transition: opacity var(--dur-reveal) var(--ease-out) var(--rd, 0ms), transform var(--dur-reveal) var(--ease-out) var(--rd, 0ms); }
+:where(.reveal-ready) .reveal.is-in { opacity: 1; transform: none; } /* :where keeps specificity low so component hover transforms still win */
 
 /* first-screen entrance: <el data-rise style="--d:0..5"> */
 @keyframes rise { from { opacity: 0; transform: translate3d(0, var(--reveal-y), 0); } to { opacity: 1; transform: none; } }
@@ -49,8 +49,8 @@
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
   :root { transition: none; }
-  .reveal-ready .reveal { opacity: 1; transform: none; }
+  :where(.reveal-ready) .reveal { opacity: 1; transform: none; }
   [data-rise] { animation: none; }
   .lift:hover, .press:active { transform: none; }
 }
-@media print { .reveal-ready .reveal { opacity: 1; transform: none; } }
+@media print { :where(.reveal-ready) .reveal { opacity: 1; transform: none; } }

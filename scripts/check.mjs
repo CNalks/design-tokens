@@ -82,7 +82,7 @@ const KEY = { deep: "deep", ocean: "ocean", rim: "rim", halo: "halo", spec: "spe
 const globe = { night: {}, day: {} };
 for (const mode of ["night", "day"]) for (const [k, t] of Object.entries(KEY)) {
   const v = light[`--globe-${mode}-${t}`]; globe[mode][k] = v ?? null;
-  if (!v) { if (!(mode === "day" && k in { sparkle: 1, spec: 1 })) fail(`missing --globe-${mode}-${t}`); continue; }
+  if (!v) { if (!(mode === "day" && k === "sparkle")) fail(`missing --globe-${mode}-${t}`); continue; }
   const want = hex(v), got = f255(fb[`${mode}.${k}`] ?? [0, 0, 0]);
   if (want.some((x, i) => Math.abs(x - got[i]) > 1)) fail(`globe-colors.ts FALLBACK ${mode}.${k} ${got} != ${v}`);
 }

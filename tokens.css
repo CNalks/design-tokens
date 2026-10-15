@@ -124,6 +124,7 @@
   --sea-track: rgb(0 0 0 / 0.16);
   --sea-halo: rgb(255 255 255 / 0.8);
   --sea-tip: rgb(255 255 255 / 0.93);
+  --sea-shadow: 0 18px 50px -14px rgb(20 50 80 / 0.28);
   --sea-stars: 0;
   --sea-text-shadow: none;
 }
@@ -147,9 +148,13 @@
   --sea-track: rgb(241 242 238 / 0.14);
   --sea-halo: rgb(24 74 104 / 0.55);
   --sea-tip: rgb(6 16 26 / 0.88);
+  --sea-shadow: 0 18px 50px -12px rgb(0 0 0 / 0.6);
   --sea-stars: 0.55;
   --sea-text-shadow: 0 2px 40px rgb(5 9 16 / 0.6);
 }
+
+/* --page-bg = the PAGE background of the active theme. It is declared once on :root, so pinned bands (which re-scope --bg) still bridge into the real page. */
+:root { --page-bg: var(--bg); }
 
 /* Soft bridge from the band's last tone into the page (8 smoothstep-like stops, no visible edge). Re-declared on the pinned
    band classes so the gradient resolves against THAT band's --sea-2. Use: .band-bridge { background: var(--bridge) } */
@@ -158,17 +163,33 @@
 .band-sea--dawn {
   --bridge: linear-gradient(to bottom,
     var(--sea-2) 0%,
-    color-mix(in oklab, var(--bg) 3%, var(--sea-2)) 12%,
-    color-mix(in oklab, var(--bg) 10%, var(--sea-2)) 24%,
-    color-mix(in oklab, var(--bg) 22%, var(--sea-2)) 36%,
-    color-mix(in oklab, var(--bg) 40%, var(--sea-2)) 48%,
-    color-mix(in oklab, var(--bg) 62%, var(--sea-2)) 60%,
-    color-mix(in oklab, var(--bg) 82%, var(--sea-2)) 74%,
-    color-mix(in oklab, var(--bg) 95%, var(--sea-2)) 88%,
-    var(--bg) 100%);
+    color-mix(in oklab, var(--page-bg) 3%, var(--sea-2)) 12%,
+    color-mix(in oklab, var(--page-bg) 10%, var(--sea-2)) 24%,
+    color-mix(in oklab, var(--page-bg) 22%, var(--sea-2)) 36%,
+    color-mix(in oklab, var(--page-bg) 40%, var(--sea-2)) 48%,
+    color-mix(in oklab, var(--page-bg) 62%, var(--sea-2)) 60%,
+    color-mix(in oklab, var(--page-bg) 82%, var(--sea-2)) 74%,
+    color-mix(in oklab, var(--page-bg) 95%, var(--sea-2)) 88%,
+    var(--page-bg) 100%);
+}
+/* Entering a band from the page (reverse of --bridge): .band-bridge-in { background: var(--bridge-in) } placed ABOVE the band */
+:root,
+.band-sea--night,
+.band-sea--dawn {
+  --bridge-in: linear-gradient(to top,
+    var(--sea-0) 0%,
+    color-mix(in oklab, var(--page-bg) 3%, var(--sea-0)) 12%,
+    color-mix(in oklab, var(--page-bg) 10%, var(--sea-0)) 24%,
+    color-mix(in oklab, var(--page-bg) 22%, var(--sea-0)) 36%,
+    color-mix(in oklab, var(--page-bg) 40%, var(--sea-0)) 48%,
+    color-mix(in oklab, var(--page-bg) 62%, var(--sea-0)) 60%,
+    color-mix(in oklab, var(--page-bg) 82%, var(--sea-0)) 74%,
+    color-mix(in oklab, var(--page-bg) 95%, var(--sea-0)) 88%,
+    var(--page-bg) 100%);
 }
 .band-sea { color: var(--sea-ink); background: linear-gradient(to bottom, var(--sea-0) 0%, var(--sea-1) 30%, var(--sea-2) 58%, var(--sea-2) 100%); }
 .band-bridge { background: var(--bridge); }
+.band-bridge-in { background: var(--bridge-in); }
 
 /* Registered so band colours and the disease hue ease instead of snapping (unsupported browsers simply switch instantly).
    motion.css puts the transition on :root. */
@@ -197,10 +218,11 @@
   --globe-night-sparkle: #408c99;
   --globe-night-event: #e9b073;
 
-  --globe-day-deep: #b9d3e4;
-  --globe-day-ocean: #e6eff5;
-  --globe-day-rim: #8fb4d0;
-  --globe-day-halo: #8fb4d0;
+  --globe-day-deep: #a9c8de;
+  --globe-day-ocean: #deecf5;
+  --globe-day-rim: #7ba4c4;
+  --globe-day-halo: #96bcd8;
+  --globe-day-spec: #ffffff;
   --globe-day-dot-lo: #6f8aa3;
   --globe-day-dot-hi: #1d2f45;
   --globe-day-event: #8a4a05;
