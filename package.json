@@ -1,0 +1,24 @@
+{
+  "name": "@cnalks/design-tokens",
+  "version": "0.1.0",
+  "description": "Shared colour, motion and WebGL-palette tokens for cnalks.cn and Global Health Signals / 统一设计令牌（配色、动效、地球调色板）",
+  "license": "Apache-2.0",
+  "author": "CNalks (https://github.com/CNalks)",
+  "repository": { "type": "git", "url": "git+https://github.com/CNalks/design-tokens.git" },
+  "homepage": "https://github.com/CNalks/design-tokens#readme",
+  "type": "module",
+  "sideEffects": ["*.css"],
+  "exports": {
+    "./tokens.css": "./tokens.css",
+    "./motion.css": "./motion.css",
+    "./reveal": "./reveal.ts",
+    "./globe-colors": "./globe-colors.ts",
+    "./tokens.json": "./tokens.json",
+    "./package.json": "./package.json"
+  },
+  "files": ["tokens.css", "motion.css", "reveal.ts", "globe-colors.ts", "tokens.json", "scripts", "README.md", "LICENSE", "NOTICE"],
+  "scripts": {
+    "build": "node scripts/check.mjs --write",
+    "check": "node scripts/check.mjs"
+  }
+}

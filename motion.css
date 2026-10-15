@@ -1,0 +1,56 @@
+/* @cnalks/design-tokens · motion.css · v0.1.0 — shared easing, durations, reveal, hover and reduced-motion rules. Apache-2.0 */
+:root {
+  /* easing: two curves with distinct jobs */
+  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);      /* entrances, travel, theme / colour fades */
+  --ease-apple: cubic-bezier(0.28, 0.11, 0.32, 1); /* hover, press, expand: softer */
+  --ease: var(--ease-out);                          /* legacy alias */
+  /* durations: six steps */
+  --dur-instant: 120ms; /* tooltip, focus ring */
+  --dur-fast: 200ms;    /* text / border hover */
+  --dur-base: 300ms;    /* buttons, chips, nav, background colour */
+  --dur-slow: 500ms;    /* card lift, theme colour fade, meters */
+  --dur-reveal: 800ms;  /* scroll reveal */
+  --dur-hero: 1000ms;   /* first-screen rise, poster -> canvas cross-fade */
+  /* reveal / stagger (reveal.ts reads --stagger) */
+  --reveal-y: 24px;
+  --stagger: 70ms;
+  --reveal-margin: -8%;
+  /* hover */
+  --lift-y: -2px;
+  --lift-scale: 1.012;
+  --press-scale: 0.98;
+  --theme-fade: var(--dur-slow) var(--ease-out);
+}
+
+/* theme / band colours ease between light and dark (properties are registered in tokens.css) */
+:root {
+  transition:
+    --data var(--theme-fade), --sea-0 var(--theme-fade), --sea-1 var(--theme-fade), --sea-2 var(--theme-fade),
+    --sea-ink var(--theme-fade), --sea-ink-2 var(--theme-fade), --sea-muted var(--theme-fade), --sea-line var(--theme-fade),
+    --sea-glass var(--theme-fade), --sea-base var(--theme-fade), --sea-halo var(--theme-fade), --sea-stars var(--theme-fade);
+}
+
+/* scroll reveal: reveal.ts adds .reveal only to blocks BELOW the first screen, so nothing above the fold ever flashes */
+.reveal-ready .reveal { opacity: 0; transform: translate3d(0, var(--reveal-y), 0); transition: opacity var(--dur-reveal) var(--ease-out) var(--rd, 0ms), transform var(--dur-reveal) var(--ease-out) var(--rd, 0ms); }
+.reveal-ready .reveal.is-in { opacity: 1; transform: none; }
+
+/* first-screen entrance: <el data-rise style="--d:0..5"> */
+@keyframes rise { from { opacity: 0; transform: translate3d(0, var(--reveal-y), 0); } to { opacity: 1; transform: none; } }
+[data-rise] { animation: rise var(--dur-hero) var(--ease-out) both; animation-delay: calc(var(--d, 0) * 110ms + 100ms); }
+
+/* hover / press (fine pointers only) */
+@media (hover: hover) and (pointer: fine) {
+  .lift { transition: transform var(--dur-slow) var(--ease-apple), box-shadow var(--dur-slow) var(--ease-apple), border-color var(--dur-base) var(--ease-apple); }
+  .lift:hover { transform: translateY(var(--lift-y)); }
+}
+.press:active { transform: scale(var(--press-scale)); }
+
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+  :root { transition: none; }
+  .reveal-ready .reveal { opacity: 1; transform: none; }
+  [data-rise] { animation: none; }
+  .lift:hover, .press:active { transform: none; }
+}
+@media print { .reveal-ready .reveal { opacity: 1; transform: none; } }

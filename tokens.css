@@ -1,0 +1,207 @@
+/* @cnalks/design-tokens · tokens.css · v0.1.0
+   Shared colour system for cnalks.cn and Global Health Signals (GHS). Apache-2.0, https://github.com/CNalks
+   Theme: <html data-theme="light|dark">. Light is the default (cool Apple-neutral white, never warm beige).
+   Roles:  --accent = INTERACTIVE (links, buttons, focus)      --data = the MEASURED quantity (charts, signals, brand mark)
+           --event  = events / latest / peaks                   colour never encodes risk (the --ok/--watch/--warn/--alert set is opt-in).
+   Sea band: a "deep-sea" section type (hero / exhibit). It follows the theme by default (dark -> night, light -> dawn);
+   add .band-sea--night to pin the deep-sea night sky in ANY theme, .band-sea--dawn to pin the morning-light look.
+   The globe palette (--globe-*) is constant: night + day are both always defined and the WebGL shader blends them.
+   Keep the hex values in sync with tokens.json: `npm run build` regenerates it, `npm run check` fails on drift / low contrast. */
+
+/* ---------------------------------------------------------------- LIGHT (default) */
+:root,
+:root[data-theme="light"] {
+  color-scheme: light;
+  /* surface */
+  --bg: #fbfbfd;
+  --bg-elev: #ffffff;
+  --panel: #f5f5f7;
+  --panel-tint: #eef2f8;
+  /* ink */
+  --ink: #1d1d1f;
+  --ink-2: #424245;
+  --muted: #6e6e73;
+  /* line */
+  --line: rgb(0 0 0 / 0.1);
+  --line-strong: rgb(0 0 0 / 0.2);
+  /* accent: interactive */
+  --accent: #0071e3;
+  --accent-ink: #0066cc;
+  --accent-hover: #0077ed;
+  --accent-soft: rgb(0 113 227 / 0.1);
+  --on-accent: #ffffff;
+  --focus: #0071e3;
+  /* data: the measured quantity (also the default disease hue = influenza) */
+  --data: #006c76;
+  --data-soft: rgb(0 108 118 / 0.1);
+  --on-data: #ffffff;
+  /* event: events / latest / peaks (fill) and text-safe ink */
+  --event: #b7791f;
+  --event-ink: #8a4a05;
+  --event-soft: rgb(183 121 31 / 0.14);
+  --indigo: #3b4a63;
+  /* semantic risk colours: only for pages that need risk semantics (not used by GHS) */
+  --ok: #1f9d55; --watch: #a16207; --warn: #d9731a; --alert: #d92d20;
+  /* chrome */
+  --shadow: 0 1px 2px rgb(0 0 0 / 0.04), 0 12px 32px -18px rgb(0 0 0 / 0.18);
+  --glass: rgb(251 251 253 / 0.8);
+  --scrim-blur: saturate(160%) blur(18px);
+  /* 2D map (same cool family as the globe) */
+  --land: #eceff3; --land-line: #d9dee5; --dot-none: #a8afb9;
+  --map-grid: rgb(0 0 0 / 0.06);
+  --band: rgb(0 0 0 / 0.05);
+}
+
+/* ---------------------------------------------------------------- DARK (also the scope of .band-sea--night) */
+:root[data-theme="dark"],
+.band-sea--night {
+  color-scheme: dark;
+  --bg: #0b1017;
+  --bg-elev: #111821;
+  --panel: #161e29;
+  --panel-tint: #131d2a;
+  --ink: #e8eef4;
+  --ink-2: #c3ccd6;
+  --muted: #8f9bab;
+  --line: rgb(232 238 244 / 0.12);
+  --line-strong: rgb(232 238 244 / 0.22);
+  --accent: #2997ff;
+  --accent-ink: #2997ff;
+  --accent-hover: #4aa8ff;
+  --accent-soft: rgb(41 151 255 / 0.16);
+  --on-accent: #04101c;
+  --focus: #2997ff;
+  --data: #6cd7e3;
+  --data-soft: rgb(108 215 227 / 0.14);
+  --on-data: #050910;
+  --event: #e9b073;
+  --event-ink: #e9b073;
+  --event-soft: rgb(233 176 115 / 0.16);
+  --indigo: #7d8ba6;
+  --ok: #34c77b; --watch: #facc15; --warn: #fb923c; --alert: #ff6b5e;
+  --shadow: 0 12px 32px -16px rgb(0 0 0 / 0.7);
+  --glass: rgb(11 16 23 / 0.72);
+  --land: #121a23; --land-line: #222e3c; --dot-none: #4a566a;
+  --map-grid: rgb(232 238 244 / 0.07);
+  --band: rgb(232 238 244 / 0.06);
+}
+
+/* ---------------------------------------------------------------- disease hues (accent.ts mirror; pick with data-accent="<id>" or setProperty("--data", ...)) */
+:root,
+:root[data-theme="light"] { --d-influenza: #006c76; --d-polio: #005e9d; --d-diphtheria: #3750a5; --d-covid19: #654199; --d-rubella: #873273; --d-measles: #942c49; --d-ebola: #a21b18; --d-dengue: #8f5300; --d-cholera: #6b5700; --d-pertussis: #416500; --d-malaria: #006f44; }
+:root[data-theme="dark"],
+.band-sea--night { --d-influenza: #6cd7e3; --d-polio: #6bc8ff; --d-diphtheria: #9bbaff; --d-covid19: #caabff; --d-rubella: #f29eda; --d-measles: #ff9bae; --d-ebola: #ff6c5d; --d-dengue: #ffb04a; --d-cholera: #d0bf59; --d-pertussis: #a6cd73; --d-malaria: #64d7aa; }
+[data-accent="influenza"] { --data: var(--d-influenza); }
+[data-accent="polio"] { --data: var(--d-polio); }
+[data-accent="diphtheria"] { --data: var(--d-diphtheria); }
+[data-accent="covid19"] { --data: var(--d-covid19); }
+[data-accent="rubella"] { --data: var(--d-rubella); }
+[data-accent="measles"] { --data: var(--d-measles); }
+[data-accent="ebola"] { --data: var(--d-ebola); }
+[data-accent="dengue"] { --data: var(--d-dengue); }
+[data-accent="cholera"] { --data: var(--d-cholera); }
+[data-accent="pertussis"] { --data: var(--d-pertussis); }
+[data-accent="malaria"] { --data: var(--d-malaria); }
+
+/* ---------------------------------------------------------------- SEA band: dawn (morning light) */
+:root,
+:root[data-theme="light"],
+.band-sea--dawn {
+  --sea-0: #dbe9f2;
+  --sea-1: #e6eff5;
+  --sea-2: #f0f5f9;
+  --sea-ink: #1d1d1f;
+  --sea-ink-2: #3a3a3d;
+  --sea-muted: #55555a;
+  --sea-event: #8a4a05;
+  --sea-warn: #7a4a12;
+  --sea-line: rgb(0 0 0 / 0.2);
+  --sea-glass: rgb(255 255 255 / 0.7);
+  --sea-base: #ffffff;
+  --sea-ctl: rgb(255 255 255 / 0.62);
+  --sea-fill: rgb(0 0 0 / 0.045);
+  --sea-hair: rgb(0 0 0 / 0.12);
+  --sea-track: rgb(0 0 0 / 0.16);
+  --sea-halo: rgb(255 255 255 / 0.8);
+  --sea-tip: rgb(255 255 255 / 0.93);
+  --sea-stars: 0;
+  --sea-text-shadow: none;
+}
+/* SEA band: deep-sea night */
+:root[data-theme="dark"],
+.band-sea--night {
+  --sea-0: #02060c;
+  --sea-1: #07131f;
+  --sea-2: #0c2236;
+  --sea-ink: #f1f2ee;
+  --sea-ink-2: #c4d2dc;
+  --sea-muted: #9db4c4;
+  --sea-event: #f0c08a;
+  --sea-warn: #e9c7a4;
+  --sea-line: rgb(241 242 238 / 0.2);
+  --sea-glass: rgb(2 6 12 / 0.7);
+  --sea-base: #050c14;
+  --sea-ctl: rgb(5 12 20 / 0.42);
+  --sea-fill: rgb(241 242 238 / 0.04);
+  --sea-hair: rgb(241 242 238 / 0.1);
+  --sea-track: rgb(241 242 238 / 0.14);
+  --sea-halo: rgb(24 74 104 / 0.55);
+  --sea-tip: rgb(6 16 26 / 0.88);
+  --sea-stars: 0.55;
+  --sea-text-shadow: 0 2px 40px rgb(5 9 16 / 0.6);
+}
+
+/* Soft bridge from the band's last tone into the page (8 smoothstep-like stops, no visible edge). Re-declared on the pinned
+   band classes so the gradient resolves against THAT band's --sea-2. Use: .band-bridge { background: var(--bridge) } */
+:root,
+.band-sea--night,
+.band-sea--dawn {
+  --bridge: linear-gradient(to bottom,
+    var(--sea-2) 0%,
+    color-mix(in oklab, var(--bg) 3%, var(--sea-2)) 12%,
+    color-mix(in oklab, var(--bg) 10%, var(--sea-2)) 24%,
+    color-mix(in oklab, var(--bg) 22%, var(--sea-2)) 36%,
+    color-mix(in oklab, var(--bg) 40%, var(--sea-2)) 48%,
+    color-mix(in oklab, var(--bg) 62%, var(--sea-2)) 60%,
+    color-mix(in oklab, var(--bg) 82%, var(--sea-2)) 74%,
+    color-mix(in oklab, var(--bg) 95%, var(--sea-2)) 88%,
+    var(--bg) 100%);
+}
+.band-sea { color: var(--sea-ink); background: linear-gradient(to bottom, var(--sea-0) 0%, var(--sea-1) 30%, var(--sea-2) 58%, var(--sea-2) 100%); }
+.band-bridge { background: var(--bridge); }
+
+/* Registered so band colours and the disease hue ease instead of snapping (unsupported browsers simply switch instantly).
+   motion.css puts the transition on :root. */
+@property --data { syntax: "<color>"; inherits: true; initial-value: #006c76; }
+@property --sea-0 { syntax: "<color>"; inherits: true; initial-value: #dbe9f2; }
+@property --sea-1 { syntax: "<color>"; inherits: true; initial-value: #e6eff5; }
+@property --sea-2 { syntax: "<color>"; inherits: true; initial-value: #f0f5f9; }
+@property --sea-ink { syntax: "<color>"; inherits: true; initial-value: #1d1d1f; }
+@property --sea-ink-2 { syntax: "<color>"; inherits: true; initial-value: #3a3a3d; }
+@property --sea-muted { syntax: "<color>"; inherits: true; initial-value: #55555a; }
+@property --sea-line { syntax: "<color>"; inherits: true; initial-value: #00000033; }
+@property --sea-glass { syntax: "<color>"; inherits: true; initial-value: #ffffffb3; }
+@property --sea-base { syntax: "<color>"; inherits: true; initial-value: #ffffff; }
+@property --sea-halo { syntax: "<color>"; inherits: true; initial-value: #ffffffcc; }
+@property --sea-stars { syntax: "<number>"; inherits: true; initial-value: 0; }
+
+/* ---------------------------------------------------------------- GLOBE (WebGL): constant night + day palettes, read by globe-colors.ts */
+:root {
+  --globe-night-deep: #030910;
+  --globe-night-ocean: #102b42;
+  --globe-night-rim: #6cd7e3;
+  --globe-night-halo: #6cd7e3;
+  --globe-night-spec: #8cc7e6;
+  --globe-night-dot-lo: #386b85;
+  --globe-night-dot-hi: #e6f2ed;
+  --globe-night-sparkle: #408c99;
+  --globe-night-event: #e9b073;
+
+  --globe-day-deep: #b9d3e4;
+  --globe-day-ocean: #e6eff5;
+  --globe-day-rim: #8fb4d0;
+  --globe-day-halo: #8fb4d0;
+  --globe-day-dot-lo: #6f8aa3;
+  --globe-day-dot-hi: #1d2f45;
+  --globe-day-event: #8a4a05;
+}
