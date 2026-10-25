@@ -11,7 +11,10 @@
 | `globe-colors.ts` | `readGlobePalette()`（从 `--globe-*` 读取 → shader uniform）、`ACCENT` 疾病色 |
 | `--accent`/`--data` 区分 | 链接、按钮、焦点用 `--accent*`；图表、信号、品牌标记用 `--data`；选择疾病用 `data-accent="ebola"` 或 `setProperty("--data", …)` |
 | `tokens.json` | 由 `tokens.css` 生成的机器可读副本 |
-| `scripts/check.mjs` | `npm run check`：WCAG 对比度 + `globe-colors.ts` / `tokens.json` 防漂移 |
+| `scripts/check.mjs` | `npm run check`：WCAG 对比度 + `globe-colors.ts` / `tokens.json` 防漂移 + 疾病色齐全门禁 |
+| `scripts/review.mjs` | `npm run review`：与 git 基线对比的变更收据 |
+| `scripts/contract.json` | 对比度对列表与「允许消费方覆盖」登记 |
+| `docs/token-contract.md` | `npm run contract-doc` 生成的 token 目录 |
 
 ## 用法 / Usage
 
@@ -42,6 +45,19 @@ initReveal({ filter: (el) => !el.closest("[data-hero]") });
   `--page-bg` 始终是当前主题的页面底色，桥据此渐变。 / `--page-bg` is always the active theme's page background; the bridges blend into it.
 - 颜色不编码风险；`--ok/--watch/--warn/--alert` 仅供确需风险语义的页面。 / Colour never encodes risk; the `--ok/--watch/--warn/--alert` set is opt-in.
 - 该包以 `.ts` 源码发布，由 Vite/Astro 等打包器转译。 / Ships `.ts` sources; use it through a bundler (Vite/Astro/esbuild).
+
+## 改 token 的流程 / Changing a token
+
+每次改动都按这五步走，最后一步的「变更收据」直接贴进 PR / CHANGELOG。
+Run these five steps for every change; paste the receipt from step 4 into the PR.
+
+1. **改** `tokens.css`（新增疾病色时：`:root` 里加 day 值、`:root[data-theme="dark"], .band-sea--night` 里加 night 值、加一行 `[data-accent="<id>"] { --data: var(--d-<id>); }`，并在 `globe-colors.ts` 的 `ACCENT` 里加同样两个值；新增文字/界面色时把它和背景、最低对比度登记进 `scripts/contract.json`）。
+2. `npm run build` — 由 `tokens.css` 重新生成 `tokens.json`。
+3. `npm run check` — WCAG 对比度（`scripts/contract.json` 对列表 + 疾病色规则）、疾病色 day/night/`data-accent`/ACCENT 是否齐全、地球 FALLBACK 镜像、`tokens.json` 是否最新；任一不过即失败。名字像文字色却没登记对比度的 token 只给 `WARN`，`npm run check -- --strict` 时也算失败。
+4. `npm run review`（默认对比 `v0.1.0`；或 `npm run review -- --base <tag|commit>`）— 变更收据：按作用域列出新增 / 删除 / 前后取值，以及这些 token 是否已进检查；无变化时输出「与基线零差异」。
+5. **写 CHANGELOG** — 在 `CHANGELOG.md` 的 `Unreleased` 下记一笔；需要时 `npm run contract-doc` 刷新 `docs/token-contract.md`。
+
+`npm test` 在临时目录副本里验证上述门禁本身（不改仓库文件）。只用 Node 标准库，Node 18+。
 
 ## 版本 / Versioning
 语义化版本，以 git tag 发布（`v0.1.0` …）；升级即修改依赖里的 tag。 / Semver via git tags; upgrading = bumping the tag in the dependency.
