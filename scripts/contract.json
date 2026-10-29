@@ -1,0 +1,24 @@
+{
+  "$comment": "Contrast contract read by scripts/check.mjs. Each pair = [foreground, background, minimum WCAG ratio], checked in every listed mode (light/dark = theme, dawn/night = sea band). Only the pairs that check.mjs already enforced in v0.1.0 are registered; add a pair here when you add a text/UI colour. Disease hues (--d-*) are checked by a fixed rule in check.mjs: night on --sea-0/--sea-2 (night band), day on --sea-0/--sea-2/--bg (dawn) and --panel (light), all >= 4.5.",
+  "contrast": [
+    {
+      "modes": ["light", "dark"],
+      "pairs": [
+        ["ink", "bg", 7], ["ink-2", "bg", 7], ["muted", "bg", 4.5], ["ink", "panel", 7], ["muted", "panel", 4.5], ["muted", "bg-elev", 4.5],
+        ["accent-ink", "bg", 4.5], ["accent-ink", "panel", 4.5], ["on-accent", "accent", 4.5], ["data", "bg", 4.5], ["data", "panel", 4.5], ["on-data", "data", 4.5],
+        ["event-ink", "bg", 4.5], ["event-ink", "panel", 4.5], ["event", "bg", 3], ["indigo", "bg", 4.5], ["focus", "bg", 3], ["line-strong", "bg", 1.5]
+      ]
+    },
+    {
+      "modes": ["dawn", "night"],
+      "pairs": [
+        ["sea-ink", "sea-1", 7], ["sea-ink", "sea-2", 7], ["sea-ink-2", "sea-1", 7], ["sea-muted", "sea-0", 4.5], ["sea-muted", "sea-2", 4.5],
+        ["sea-event", "sea-0", 4.5], ["sea-event", "sea-2", 4.5], ["sea-warn", "sea-2", 4.5], ["data", "sea-0", 4.5], ["data", "sea-2", 4.5]
+      ]
+    }
+  ],
+  "consumerOverride": {
+    "$comment": "Tokens the README / tokens.css comments explicitly tell consumers to re-set locally. Anything not listed here: not documented (待补).",
+    "--data": "README: 选择疾病用 data-accent=\"<id>\" 或 setProperty(\"--data\", …)；tokens.css: [data-accent=\"<id>\"] { --data: var(--d-<id>) }"
+  }
+}
